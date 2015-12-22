@@ -7,6 +7,15 @@
 
 (def parsed (read-string (str/replace input ":" " ")))
 
+(defn sum-without-red [m]
+  (cond
+    (map? m) (if (some #{"red"} (vals m))
+               0
+               (reduce + (map sum-without-red (vals m))))
+    (vector? m) (reduce + (map sum-without-red m))
+    (number? m) m
+    :else 0))
+
 (comment
   ;; Part 1
   (reduce (fn [acc x]
@@ -14,6 +23,10 @@
   ;;=> 111754
 
   ;; Part 2
+  (sum-without-red parsed)
+  ;;=> 65402
+
+  ;; Using prewalk
   (let [sum (atom 0)]
     (prewalk (fn [x]
                (cond
