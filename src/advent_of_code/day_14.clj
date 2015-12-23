@@ -19,7 +19,7 @@
     (+ (* (int (/ seconds total)) speed run)
        (if (>= remaining run)
          (* run speed)
-         0))))
+         (* remaining speed)))))
 
 (comment
   ;; Part 1
