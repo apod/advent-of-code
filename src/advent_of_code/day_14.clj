@@ -21,8 +21,19 @@
          (* run speed)
          (* remaining speed)))))
 
+(defn give-point [distances]
+  (let [m (apply max distances)]
+    (map #(if (= m %) 1 0) distances)))
+
 (comment
   ;; Part 1
-  (apply max (map (partial distance-traveled 2503) reindeer))
+  (apply max (pmap (partial distance-traveled 2503) reindeer))
   ;;=> 2655
+
+  ;; Part 2
+  (apply max (reduce #(pmap + %1 %2)
+                     (pmap #(give-point
+                             (pmap (partial distance-traveled %) reindeer))
+                           (range 1 (inc 2503)))))
+  ;;=> 1059
   )
