@@ -41,19 +41,19 @@
 
   ;; Part 1
   (apply (partial max-key :score)
-         (map (fn [c]
-                {:combination c
-                 :score (score c [:capacity :durability :flavor :texture] ingredients)})
-                combinations))
+         (pmap (fn [c]
+                 {:combination c
+                  :score (score c [:capacity :durability :flavor :texture] ingredients)})
+               combinations))
   ;;=> {:combination [28 35 18 19], :score 13882464}
 
   ;; Part 2
   (apply (partial max-key :score)
          (filter #(= (:calories %) 500)
-                 (map (fn [c]
-                        {:combination c
-                         :calories (reduce + (map * c (map :calories ingredients)))
-                         :score (score c [:capacity :durability :flavor :texture] ingredients)})
-                      combinations)))
+                 (pmap (fn [c]
+                         {:combination c
+                          :calories (reduce + (map * c (map :calories ingredients)))
+                          :score (score c [:capacity :durability :flavor :texture] ingredients)})
+                       combinations)))
   ;;=> {:combination [27 27 15 31], :calories 500, :score 11171160}
   )
